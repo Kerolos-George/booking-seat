@@ -18,7 +18,6 @@ const Dialog: React.FC<DialogProps> = ({
   onClose,
   title,
   message,
-  type = 'info',
   confirmText = 'OK',
   showCancel = false,
   cancelText = 'Cancel',

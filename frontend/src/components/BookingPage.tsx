@@ -35,16 +35,6 @@ const BookingPage: React.FC = () => {
     }
   }
 
-  const handleBookingSubmit = async (bookingData: any) => {
-    // Mock submission - just show success message
-    console.log('Booking data:', bookingData)
-    
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    console.log(`Booking successful! Customer: ${bookingData.name}, Email: ${bookingData.email}, Phone: ${bookingData.phone}, Total Price: ${bookingData.totalPrice} EGP`)
-  }
-
   if (loading) {
     return <div className="loading">Loading seat information...</div>
   }
@@ -58,7 +48,6 @@ const BookingPage: React.FC = () => {
       <div className="container">
         <ModernBookingForm 
           seatRows={seatRows}
-          onSubmit={handleBookingSubmit}
         />
       </div>
     </div>
