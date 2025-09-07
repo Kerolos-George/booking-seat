@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  phone       String?
+  bookings    Booking[]
+  createdAt   DateTime @default(now())
+}
+
+model Booking {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  seats      SeatBooking[] 
+  isPaid     Boolean  @default(false) 
+  totalPrice Float    @default(0.0)
+  receiptUrl String?  // Store receipt URL in booking table
+  createdAt  DateTime @default(now())
+}
+
+model SeatBooking {
+  id         String   @id @default(cuid())
+  bookingId  String
+  booking    Booking  @relation(fields: [bookingId], references: [id],onDelete: Cascade)
+  seatRowId  String
+  seatRow    SeatRow  @relation(fields: [seatRowId], references: [id])
+  seatNumber Int
+  firstName  String
+  lastName   String
+}
+
+
+enum SeatRowType {
+  Ground
+  Balcony
+}
+
+model SeatRow {
+  id           String        @id @default(cuid())
+  name         String   
+  type         SeatRowType   @default(Ground)
+  seats        Int[]    
+  seatBookings SeatBooking[]
+  visible      Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+}
+
